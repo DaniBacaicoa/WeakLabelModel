@@ -236,13 +236,13 @@ def computeVirtualMatrixNewMethod(weak_labels, mixing_matrix, convex=True):
     if convex == True:
         hat_Y = cvxpy.Variable((c,d))
         prob = cvxpy.Problem(cvxpy.Minimize(
-            cvxpy.norm(cvxpy.hstack([cvxpy.norm(hat_Y[:,i])*p[i] for i in range(d)]),1)),
+            cvxpy.norm(cvxpy.hstack([cvxpy.norm(hat_Y[:,i])**2*p[i] for i in range(d)]),1)),
                           [hat_Y @ mixing_matrix == I,
                            hat_Y.T @ c1 == d1])
     else:
         hat_Y = cvxpy.Variable((c,d))
         prob = cvxpy.Problem(cvxpy.Minimize(
-            cvxpy.norm(cvxpy.hstack([cvxpy.norm(hat_Y[:,i])*p[i] for i in range(d)]),1)),
+            cvxpy.norm(cvxpy.hstack([cvxpy.norm(hat_Y[:,i])**2*p[i] for i in range(d)]),1)),
                           [hat_Y @ mixing_matrix == I])
     prob.solve()
     return hat_Y.value
